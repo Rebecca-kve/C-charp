@@ -12,7 +12,7 @@ public class Deck
 
     public List<Card> cards = new List<Card>();
     
-    public void AddCards()
+    private void AddCards()
     {
         foreach (Suit suit in Enum.GetValues(typeof(Suit)))
         {
