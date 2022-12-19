@@ -1,7 +1,8 @@
+using System;
 using System.Security.Cryptography.X509Certificates;
 
 var deck = new Deck();
-deck = deck.ShuffleDeck(deck);
+deck.ShuffleDeck();
 deck.PrintDeckofCards();
 
 
@@ -10,7 +11,7 @@ public class Deck
 {
     public Deck() { if (cards.Count == 0) AddCards(); }
 
-    public List<Card> cards = new List<Card>();
+    private List<Card> cards = new List<Card>();
     
     private void AddCards()
     {
@@ -37,20 +38,20 @@ public class Deck
         }
     }
 
-    public Deck ShuffleDeck(Deck deck)
+    public void ShuffleDeck()
     {
-        Deck ShuffledDeck = new Deck();
-        Random index = new Random();
-        int position = 0;
+        // Shuffle by moving random cards from pile 1 to pile 2
+        Random random = new Random();
+        int randomCard = 0;
+        var newPile = new List<Card>();
 
-        while (deck.cards.Count > 0)
+        while (cards.Count > 0)
         {
-            position = index.Next(0, deck.cards.Count); // Pick random position
-            ShuffledDeck.cards.RemoveAt(position); // remove old card in position
-            ShuffledDeck.cards.Add(deck.cards[position]); // add random card in position
-            deck.cards.RemoveAt(position);
+            randomCard = random.Next(0, cards.Count);
+            newPile.Add(cards[randomCard]);
+            cards.RemoveAt(randomCard);
         }
-            return ShuffledDeck;
+        cards = newPile;
     }
 }
 
@@ -87,3 +88,23 @@ public enum Suit
     Spades,
     Dimonds
 }
+
+
+
+    /*
+    public Deck ShuffleDeck(Deck deck)
+    {
+        Deck ShuffledDeck = new Deck();
+        Random index = new Random();
+        int position = 0;
+
+        while (deck.cards.Count > 0)
+        {
+            position = index.Next(0, deck.cards.Count); // Pick random position
+            ShuffledDeck.cards.RemoveAt(position); // remove old card in position
+            ShuffledDeck.cards.Add(deck.cards[position]); // add random card in position
+            deck.cards.RemoveAt(position);
+        }
+            return ShuffledDeck;
+    }
+    */
