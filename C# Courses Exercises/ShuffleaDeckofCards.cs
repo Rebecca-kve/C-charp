@@ -1,12 +1,35 @@
+
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 
 var deck = new Deck();
 deck.ShuffleDeck();
-deck.PrintDeckofCards();
+deck.PrintDeckofCards();            // test if deck is shuffled
 
+var hand = new Hand();
+hand.drawXcardsFromDeck(7, deck);
 
+Console.WriteLine("Hand:");
+hand.PrintHand();                   // Test hand
 
+Console.WriteLine("Deck after cards removed:");
+deck.PrintDeckofCards();            // Test if top cards are removed.
+
+public class Hand
+{
+    private List<Card> hand = new List<Card>();
+    public void drawXcardsFromDeck(int x, Deck deck)
+    {
+        hand = deck.DrawTopCards(x);
+    }
+    public void PrintHand()
+    {
+        for(int i = 0; i < hand.Count; i++){
+            hand[i].PrintCardName();
+        }
+    }
+}
 public class Deck
 {
     public Deck() { if (cards.Count == 0) AddCards(); }
@@ -37,7 +60,7 @@ public class Deck
             cards[i].PrintCardName();
         }
     }
-
+ 
     public void ShuffleDeck()
     {
         // Shuffle by moving random cards from pile 1 to pile 2
@@ -52,6 +75,16 @@ public class Deck
             cards.RemoveAt(randomCard);
         }
         cards = newPile;
+    }
+    public List<Card> DrawTopCards(int top)
+    {
+        var topcards = new List<Card>();
+        for (int i = 0; i < top; i++)
+        {
+            topcards.Add(cards[cards.Count-1]);
+            cards.RemoveAt(cards.Count-1);
+        }
+        return topcards;
     }
 }
 
@@ -89,22 +122,20 @@ public enum Suit
     Dimonds
 }
 
+/*
+ public Deck ShuffleDeck(Deck deck)
+ {
+     Deck ShuffledDeck = new Deck();
+     Random index = new Random();
+     int position = 0;
 
-
-    /*
-    public Deck ShuffleDeck(Deck deck)
-    {
-        Deck ShuffledDeck = new Deck();
-        Random index = new Random();
-        int position = 0;
-
-        while (deck.cards.Count > 0)
-        {
-            position = index.Next(0, deck.cards.Count); // Pick random position
-            ShuffledDeck.cards.RemoveAt(position); // remove old card in position
-            ShuffledDeck.cards.Add(deck.cards[position]); // add random card in position
-            deck.cards.RemoveAt(position);
-        }
-            return ShuffledDeck;
-    }
-    */
+     while (deck.cards.Count > 0)
+     {
+         position = index.Next(0, deck.cards.Count); // Pick random position
+         ShuffledDeck.cards.RemoveAt(position); // remove old card in position
+         ShuffledDeck.cards.Add(deck.cards[position]); // add random card in position
+         deck.cards.RemoveAt(position);
+     }
+         return ShuffledDeck;
+ }
+ */
