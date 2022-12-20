@@ -78,9 +78,9 @@ public class Deck
     }
     public List<Card> DrawTopCards(int top)
     {
-		if (cards.Count < top)
-			throw new ArgumentOutOfRangeException("Cant draw more cards than what is in the deck");
-		
+        if (cards.Count < top)
+            throw new ArgumentOutOfRangeException("Cant draw more cards than what is in the deck");
+
         var topcards = new List<Card>();
         for (int i = 0; i < top; i++)
         {
